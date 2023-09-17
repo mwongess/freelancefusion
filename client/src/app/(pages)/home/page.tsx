@@ -12,7 +12,6 @@ const Home = () => {
                     <p >Wordpress</p>
                     <p >Remo</p>
                     <p >Next</p>
-
                 </div>
             </div>
             <div className='right  '>
