@@ -1,21 +1,29 @@
+"use client"
+
 import Cta from '@/components/Cta'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
-import React from 'react'
+import { usePathname } from 'next/navigation'
 
 const layout = ({ children }: { children: React.ReactNode }) => {
+    const pathname = usePathname()
+    const isLogin = pathname.toString().includes('login')
+    const isSignup = pathname.toString().includes('signup')
+    const isAuth = isLogin || isSignup
     return (
         <div className='flex flex-col  justify-between'>
             <div className='min-h-screen'>
-            <Header />
-            <div className="outlet">
-                {children}
+                {!isAuth && <Header />}
+
+                <div className="outlet">
+                    {children}
+                </div>
             </div>
-            </div>
-            <div>
+            {!isAuth && <div>
                 <Cta />
                 <Footer />
-            </div>
+            </div>}
+
         </div>
     )
 }

@@ -28,7 +28,7 @@ body {
 }
 
 .outlet {
-  @apply p-10
+  /* @apply p-10 */
 }
 
 .home {
