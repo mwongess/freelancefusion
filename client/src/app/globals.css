@@ -18,10 +18,51 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+}
+
+.header {
+  @apply flex justify-between items-center p-8
+}
+
+.outlet {
+  @apply p-8
+}
+
+.home {
+  @apply flex gap-5
+}
+
+.home div {
+  @apply w-1/2
+}
+.home .left{
+  @apply flex flex-col gap-5
+}
+.in-demand{
+  @apply flex gap-3 w-full  items-center w-full !important
+}
+.in-demand p{
+  @apply border py-1 px-3 rounded-full
+}
+.cta {
+  @apply flex gap-8 p-8 border-t
+}
+
+.cta div h1 {
+  @apply font-bold mb-3
+}
+
+.footer {
+  @apply flex justify-between items-center border-t mx-8 py-8 pt-8
+}
+
+.footer .licensing {
+  @apply flex items-center gap-8
+}
+
+.footer .socials {
+  @apply flex gap-2
 }
