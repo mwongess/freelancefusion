@@ -3,7 +3,7 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div className='header '>
+    <div className='header'>
         <h1 className='font-bold text-2xl'>FreelanceFusion</h1>
         <div className='flex gap-6'>
             <Link href="">Explore</Link>

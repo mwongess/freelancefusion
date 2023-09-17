@@ -24,11 +24,11 @@ body {
 }
 
 .header {
-  @apply flex justify-between items-center p-8
+  @apply sticky inset-0 flex justify-between items-center p-10
 }
 
 .outlet {
-  @apply p-8
+  @apply p-10
 }
 
 .home {
@@ -39,18 +39,23 @@ body {
   @apply w-1/2
 }
 .home .left{
-  @apply flex flex-col gap-5
+  @apply flex flex-col gap-9 justify-center items-center
+}
+.home .right{
+  @apply flex justify-center items-center
 }
 .in-demand{
   @apply flex gap-3 w-full  items-center w-full !important
 }
 .in-demand p{
-  @apply border py-1 px-3 rounded-full
+  @apply  py-1 px-3 rounded-full bg-[#0B9240]
 }
 .cta {
-  @apply flex gap-8 p-8 border-t
+  @apply flex justify-between  p-10 border-t
 }
-
+.cta div{
+  @apply flex flex-col justify-end
+}
 .cta div h1 {
   @apply font-bold mb-3
 }
@@ -60,7 +65,7 @@ body {
 }
 
 .footer .licensing {
-  @apply flex items-center gap-8
+  @apply flex items-center gap-10
 }
 
 .footer .socials {

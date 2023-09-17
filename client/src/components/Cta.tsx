@@ -11,7 +11,21 @@ const Cta = () => {
                 <p>Lorem, ipsum dolor.</p>
             </div>
             <div>
-                <h1>About</h1>
+                <h1>Work</h1>
+                <p>Lorem, ipsum dolor.</p>
+                <p>Lorem, ipsum dolor.</p>
+                <p>Lorem, ipsum dolor.</p>
+                <p>Lorem, ipsum dolor.</p>
+            </div>
+            <div>
+                <h1>Resources</h1>
+                <p>Lorem, ipsum dolor.</p>
+                <p>Lorem, ipsum dolor.</p>
+                <p>Lorem, ipsum dolor.</p>
+                <p>Lorem, ipsum dolor.</p>
+            </div>
+            <div>
+                <h1>Company</h1>
                 <p>Lorem, ipsum dolor.</p>
                 <p>Lorem, ipsum dolor.</p>
                 <p>Lorem, ipsum dolor.</p>
