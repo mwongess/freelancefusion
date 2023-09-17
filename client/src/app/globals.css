@@ -24,7 +24,7 @@ body {
 }
 
 .header {
-  @apply sticky inset-0 flex justify-between items-center p-10
+  @apply sticky inset-0 flex justify-between items-center p-10 bg-black
 }
 
 .outlet {
@@ -69,5 +69,5 @@ body {
 }
 
 .footer .socials {
-  @apply flex gap-2
+  @apply flex gap-2 text-2xl
 }

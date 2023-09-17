@@ -4,7 +4,7 @@ import React from 'react'
 const Header = () => {
   return (
     <div className='header'>
-        <h1 className='font-bold text-2xl'>FreelanceFusion</h1>
+        <h1 className='font-bold text-2xl'><span className='border-2 p-1 text-[#0B9240]'>FF</span> FreelanceFusion</h1>
         <div className='flex gap-6'>
             <Link href="">Explore</Link>
             <Link href="">Contact Us</Link>

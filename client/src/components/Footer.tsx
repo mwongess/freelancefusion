@@ -1,4 +1,6 @@
+import { FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import React from 'react'
+import Link from 'next/link';
 
 const Footer = () => {
     return (
@@ -8,10 +10,9 @@ const Footer = () => {
                 <p>FreelanceFusion International Ltd .2023</p>
             </div>
             <div className='socials'>
-                <p>Links</p>
-                <p>Links</p>
-                <p>Links</p>
-                <p>Links</p>
+                <Link href=""> <p><FaFacebook /></p></Link>
+                <Link href=""><p><FaInstagram /></p></Link>
+                <Link href=""><p><FaLinkedin /></p></Link>
             </div>
         </div>
     )
