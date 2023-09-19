@@ -7,38 +7,38 @@ const Chat = () => {
     const client = new Client();
     const databases = new Databases(client);
     client
-        .setEndpoint('https://cloud.appwrite.io/v1') // Your API Endpoint
-        .setProject('5df5acd0d48c2') // Your project ID
-        ;
+        .setEndpoint('https://cloud.appwrite.io/v1')
+        .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!)
 
     async function sendMessageToAdmin(userID: string, message: any) {
-        // Create a new message object
-        const messageObject = {
-            senderID: userID,
-            recipientID: 'YOUR_ADMIN_USER_ID',
-            message,
-        };
-
-        // Create a new document in the messages collection
-        const response = await databases.createDocument(process.env.NEXT_PUBLIC_DATABASE_ID!, process.env.NEXT_PUBLIC_COLLECTION_ID!, ID.unique(), messageObject);
-
-        // Return the message document
-        return response;
+        try {
+            const messageObject = {
+                senderID: userID,
+                recipientID: process.env.NEXT_PUBLIC_ADMIN_USER_ID,
+                message,
+            };
+            const response = await databases.createDocument(process.env.NEXT_PUBLIC_DATABASE_ID!, process.env.NEXT_PUBLIC_COLLECTION_ID!, ID.unique(), messageObject);
+            return response;
+        } catch (error) {
+            console.error(error);
+        }
     }
+
     async function sendMessageToUser(userID: string, message: any) {
-        // Create a new message object
-        const messageObject = {
-            senderId: 'YOUR_ADMIN_USER_ID',
-            recipientId: userID,
-            message,
-        };
+        try {
+            const messageObject = {
+                senderId:  process.env.NEXT_PUBLIC_ADMIN_USER_ID,
+                recipientId: userID,
+                message,
+            };
+            const response = await databases.createDocument(process.env.NEXT_PUBLIC_DATABASE_ID!, process.env.NEXT_PUBLIC_COLLECTION_ID!, ID.unique(), messageObject);
+            return response;
 
-        // Create a new document in the messages collection
-        const response = await databases.createDocument(process.env.NEXT_PUBLIC_DATABASE_ID!, process.env.NEXT_PUBLIC_COLLECTION_ID!, ID.unique(), messageObject);
-
-        // Return the message document
-        return response;
+        } catch (error) {
+            console.error(error);
+        }
     }
+    
     return (
         <div className="flex items-start gap-5">
             <div className="flex justify-between w-[25%] border-r p-8 min-h-[90vh]">
