@@ -13,7 +13,6 @@ type LoginUserAccount = {
 }
 
 const appwriteClient = new Client()
-
 appwriteClient.setEndpoint(config.appwriteUrl).setProject(config.appwriteProjectId);
 
 export const account = new Account(appwriteClient)
@@ -37,6 +36,7 @@ export class AppwriteService {
 
     async login( { email, password }: LoginUserAccount) {
        try {
+             console.log(config.appwriteUrl)
             return await account.createEmailSession(email, password)
        } catch (error:any) {
          throw error

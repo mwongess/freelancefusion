@@ -1,9 +1,12 @@
 "use client"
 
+import appwriteService from "@/appwrite/config"
 import Notes from "@/components/Notes"
+import { useAuth } from "@/context/authContext"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { FormEvent, useState } from "react"
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -11,10 +14,23 @@ const Signup = () => {
     email: "",
     password: "",
   })
+  const [error, setError] = useState("")
+  const { setAuthStatus } = useAuth()
 
-  const signup = (e: any) => {
+  const router = useRouter()
+
+  const signup = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-  }
+    try {
+        const userData = await appwriteService.createUserAccount(formData);
+        if (userData) {
+            setAuthStatus(true)
+            router.push("/console")
+        }
+    } catch (error: any) {
+        setError(error.message)
+    }
+}
 
   return (
     <div className='flex h-screen'>

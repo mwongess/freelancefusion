@@ -3,6 +3,7 @@
 import appwriteService from '@/appwrite/config'
 import Notes from '@/components/Notes'
 import { useAuth } from '@/context/authContext'
+import { log } from 'console'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -14,18 +15,20 @@ const Login = () => {
     password: "",
   })
   const [error, setError] = useState("")
+
   const { setAuthStatus } = useAuth()
+
   const router = useRouter()
+
   const login = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
+      console.log(formData)
       const session = await appwriteService.login(formData);
       if (session) {
         setAuthStatus(true)
         router.push("/console")
       }
-
-
     } catch (error: any) {
       setError(error.message)
     }
@@ -35,7 +38,7 @@ const Login = () => {
     <div className='flex h-screen'>
       <Notes />
       <div className='flex flex-col justify-between sm:justify-center items-center w-full sm:w-1/2 bg-white pt-10 sm:pt-0'>
-        <form action="" className='w-[80%] sm:w-[60%] text-black'>
+        <form onSubmit={login} className='w-[80%] sm:w-[60%] text-black'>
           <div className='flex flex-col gap-2'>
             <label className='font-bold text-lg' htmlFor="">Email</label>
             <input className='p-2 bg-transparent border-2 border-[#0B9240]' onChange={(e) =>

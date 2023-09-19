@@ -24,7 +24,7 @@ body {
 }
 
 .header {
-  @apply sticky inset-0 flex justify-between items-center p-10 bg-black
+  @apply sticky inset-0 flex justify-between items-center px-10 py-6 bg-black
 }
 
 .outlet {

@@ -13,16 +13,15 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className='flex flex-col  justify-between'>
             <div className='min-h-screen'>
-                {!isAuth && <Header />}
-
+                <Header />
                 <div className="outlet">
                     {children}
                 </div>
             </div>
-            {!isAuth && <div>
+            <div>
                 <Cta />
                 <Footer />
-            </div>}
+            </div>
 
         </div>
     )
