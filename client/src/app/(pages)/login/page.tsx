@@ -1,5 +1,8 @@
+"use client"
+
 import appwriteService from '@/appwrite/config'
 import Notes from '@/components/Notes'
+import { useAuth } from '@/context/authContext'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -11,21 +14,22 @@ const Login = () => {
     password: "",
   })
   const [error, setError] = useState("")
+  const { setAuthStatus } = useAuth()
   const router = useRouter()
   const login = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-        const session = await appwriteService.login(formData);
-        if (session) {
-            // setAuthStatus(true)s
-            router.push("/profile")
-        }
-            
-        
+      const session = await appwriteService.login(formData);
+      if (session) {
+        setAuthStatus(true)
+        router.push("/console")
+      }
+
+
     } catch (error: any) {
-        setError(error.message)
+      setError(error.message)
     }
-}
+  }
 
   return (
     <div className='flex h-screen'>

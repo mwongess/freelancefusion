@@ -1,3 +1,5 @@
+"use client"
+
 import Notes from "@/components/Notes"
 import Image from "next/image"
 import Link from "next/link"
