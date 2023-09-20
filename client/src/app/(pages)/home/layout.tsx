@@ -5,7 +5,7 @@ import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import { usePathname } from 'next/navigation'
 
-const layout = ({ children }: { children: React.ReactNode }) => {
+const HomeLayout = ({ children }: { children: React.ReactNode }) => {
     const pathname = usePathname()
     const isLogin = pathname.toString().includes('login')
     const isSignup = pathname.toString().includes('signup')
@@ -27,4 +27,4 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     )
 }
 
-export default layout
+export default HomeLayout

@@ -3,7 +3,8 @@ import SideNav from "@/components/Console/SideNav"
 import TopNav from "@/components/Console/TopNav"
 import { AuthProvider } from "@/context/authContext"
 import { useState } from 'react'
-const layout = ({ children }: { children: React.ReactNode }) => {
+
+const Layout = ({ children }: { children: React.ReactNode }) => {
     const [authStatus, setAuthStatus] = useState(false)
     return (
         <AuthProvider value={{ authStatus, setAuthStatus }}>
@@ -22,4 +23,4 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     )
 }
 
-export default layout
+export default Layout
