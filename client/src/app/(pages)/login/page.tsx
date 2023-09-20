@@ -3,7 +3,6 @@
 import appwriteService from '@/appwrite/config'
 import Notes from '@/components/Notes'
 import { useAuth } from '@/context/authContext'
-import { log } from 'console'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
