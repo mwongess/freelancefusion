@@ -6,7 +6,7 @@ import { useAuth } from '@/context/authContext'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { FormEvent, useState } from 'react'
+import { FormEvent, useState } from 'react'
 
 const Login = () => {
   const [formData, setFormData] = useState({

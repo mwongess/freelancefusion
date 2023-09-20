@@ -104,8 +104,8 @@ const Chat = () => {
                         <p className=" px-2 rounded-lg h-fit w-fit text-xl"><RiVerifiedBadgeFill /></p>
                     </div>
                     <div className="flex flex-col gap-4 py-8 ">
-                        {isAdmin && chats.filter((chat: any) => chat.senderID != process.env.NEXT_PUBLIC_ADMIN_USER_ID).map((chat: any) => (
-                            <p className="bg-slate-200 rounded-lg p-3 w-full text-black">{chat.senderID}</p>
+                        {isAdmin && chats.filter((chat: any) => chat.senderID != process.env.NEXT_PUBLIC_ADMIN_USER_ID).map((chat: any,index:any) => (
+                            <p key={index} className="bg-slate-200 rounded-lg p-3 w-full text-black">{chat.senderID}</p>
                         ))}
                     </div>
                 </div>
@@ -115,8 +115,8 @@ const Chat = () => {
                     {
                         !chats[0] && <NoMesages />
                     }
-                    {chats.map((chat: any) => (
-                        <div className={(chat.senderID === currentUser ? "self-end bg-slate-50 text-black " : "self-start border border-slate-50") + " border p-3 w-fit rounded-lg mb-[0.5rem]"}>
+                    {chats.map((chat: any, index:any) => (
+                        <div key={index} className={(chat.senderID === currentUser ? "self-end bg-slate-50 text-black " : "self-start border border-slate-50") + " border p-3 w-fit rounded-lg mb-[0.5rem]"}>
                             <p>{chat.message}</p>
                         </div>
                     ))}
