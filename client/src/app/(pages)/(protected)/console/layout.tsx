@@ -10,7 +10,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
             <div>
                 <TopNav />
                 <div className="flex sm:min-h-[90vh]">
-                    <div className="hidden sm:flex sm:w-[20%] border-r border-slate-100">
+                    <div className="hidden sm:flex sm:w-[20%] border-r border-slate-600">
                         <SideNav />
                     </div>
                     <div className="sm:w-[80%]">

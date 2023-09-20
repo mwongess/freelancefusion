@@ -45,7 +45,7 @@ body {
   @apply flex justify-center items-center
 }
 .in-demand{
-  @apply flex gap-3 w-full  items-center w-full !important
+  @apply flex gap-3  items-center w-full !important
 }
 .in-demand p{
   @apply  py-1 px-3 rounded-full bg-[#0B9240]
@@ -70,4 +70,8 @@ body {
 
 .footer .socials {
   @apply flex gap-2 text-2xl
+}
+.message{
+
+  @apply border border-slate-500 !important
 }

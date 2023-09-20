@@ -5,8 +5,14 @@ import { CgLogOut } from "react-icons/cg";
 import { BiTask } from "react-icons/bi";
 import { SiSlack } from "react-icons/si";
 import Link from "next/link"
+import { useRouter } from "next/navigation";
 
 const SideNav = () => {
+    const router = useRouter()
+    const logout = () => {
+        router.push("/login")
+    }
+
     return (
         <div className="fixed flex flex-col justify-between gap-[5rem] px-4 py-8 font-bold">
             <div className="flex flex-col gap-8">
@@ -17,7 +23,7 @@ const SideNav = () => {
                 <Link className="flex items-center gap-4 text-lg" href="/console/settings"><VscSettings /> Settings</Link>
             </div>
             <div className="fixed bottom-0 pb-8">
-                <Link className="text-red-500 flex items-center gap-3 text-lg" href=""><CgLogOut /> Logout</Link>
+                <p className="text-red-500 flex items-center gap-3 text-lg cursor-pointer" onClick={logout}><CgLogOut /> Logout</p>
             </div>
         </div>
     )
