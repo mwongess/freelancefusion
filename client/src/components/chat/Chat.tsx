@@ -8,11 +8,9 @@ import { RiVerifiedBadgeFill } from "react-icons/ri";
 import NoMesages from "../NoMesages";
 import config from "@/config/conf";
 import { useAuth } from "@/context/authContext";
-import { log } from "console";
 
 const Chat = () => {
     const [currentUser, setCurrentUser] = useState("")
-    const [recipientID, setRecipientID] = useState("")
     const [message, setMessage] = useState("")
     const [messages, setMessages] = useState<any>([])
     const [chats, setChats] = useState<any>([])
