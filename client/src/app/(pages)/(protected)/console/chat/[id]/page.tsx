@@ -4,51 +4,89 @@ import { appwriteClient } from '@/appwrite/config'
 import NoMesages from '@/components/NoMesages'
 import config from '@/config/conf'
 import { useAuth } from '@/context/authContext'
-import { Databases, ID, Permission, Role } from 'appwrite'
-import React, { FormEvent, useState } from 'react'
+import { Databases, ID, Permission, Query, Role } from 'appwrite'
+import { useParams } from 'next/navigation'
+import React, { FormEvent, useEffect, useState } from 'react'
 import { FaArrowUp } from 'react-icons/fa'
 
 const Chat = () => {
-  const [chats, setChats] = useState([])
+  const [chats, setChats] = useState<any>([])
   const [message, setMessage] = useState("")
-
+  const { id: receiverID } = useParams()
   const { user } = useAuth()
 
   const databases = new Databases(appwriteClient);
 
+  useEffect(() => {
+    getMessages();
+
+    const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteCollectionId}.documents`, (response: any) => {
+
+      if (response.events.includes("databases.*.collections.*.documents.*.create")) {
+        console.log('MESSAGE SENT')
+        setChats((prevState: any) => [...prevState, response.payload])
+      }
+
+      if (response.events.includes("databases.*.collections.*.documents.*.delete")) {
+        console.log('MESSAGE HAS BEEN DELETED!!!')
+        setChats((prevState: any[]) => prevState.filter(message => message.$id !== response.payload.$id))
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const getMessages = async () => {
+    const response = await databases.listDocuments(
+      config.appwriteDatabaseId,
+      config.appwriteCollectionId,
+    )
+    const thisUserChats = response.documents.filter((chat) => { return (chat.receiverID == process.env.NEXT_PUBLIC_ADMIN_USER_ID  &&  chat.senderID ==  receiverID ) || (chat.senderID == process.env.NEXT_PUBLIC_ADMIN_USER_ID && chat.receiverID == receiverID ) })
+    console.log(thisUserChats);
+    
+    setChats(thisUserChats)
+  }
   const sendMessage = async (e: FormEvent) => {
     e.preventDefault()
 
     const permissions = [
-        Permission.write(Role.user(user.$id)),
+      Permission.write(Role.user(user.$id)),
     ]
 
     const payload = {
-        senderID: user.$id,
-        senderUsername: user.name,
-        receiverID: "",
-        message: message
+      senderID: user.$id,
+      senderUsername: user.name,
+      receiverID,
+      message: message
     }
 
     const response = await databases.createDocument(
-        config.appwriteDatabaseId,
-        config.appwriteCollectionId,
-        ID.unique(),
-        payload,
-        permissions
+      config.appwriteDatabaseId,
+      config.appwriteCollectionId,
+      ID.unique(),
+      payload,
+      permissions
     )
     setMessage('') //Reset message input
-}
+  }
 
   return (
     <div className="flex flex-col justify-center items-center w-screen sm:w-full p-4 h-[90vh]">
-      <div className="flex flex-col gap-4 overflow-y-scroll  w-full h-[80vh]">
+      <div className="flex flex-col gap-4 overflow-y-scroll  w-full h-[80vh] pr-3">
         {
           !chats[0] && <NoMesages />
         }
         {chats.map((chat: any, index: any) => (
-          <div key={index} className={(chat.senderID === user.$id ? "self-end bg-slate-50 text-black " : "self-start border border-slate-50") + " border p-3 w-fit rounded-lg mb-[0.5rem] h-full"}>
-            <p>{chat.message}</p>
+          <div key={index} className={(chat.senderID === user.$id ? "self-end bg-slate-400 text-black " : "self-start border border-slate-500 text-slate-300") + " p-3 w-fit rounded-lg mb-[0.5rem]"}>
+            <div className='flex gap-4'>
+              <p className='font-bold'>{chat.senderUsername}</p>
+              <p>{new Date(chat.$createdAt).toLocaleString()}</p>
+            </div>
+            <div className='mt-1'>
+              <p>{chat.message}</p>
+            </div>
           </div>
         ))}
       </div>

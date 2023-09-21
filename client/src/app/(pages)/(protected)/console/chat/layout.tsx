@@ -1,14 +1,32 @@
 "use client"
 
+import { appwriteClient } from '@/appwrite/config'
+import config from '@/config/conf'
 import { useAuth } from '@/context/authContext'
-import React, { useState } from 'react'
+import { Databases } from 'appwrite'
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
 import { RiVerifiedBadgeFill } from 'react-icons/ri'
 
 const ChatLayout = ({ children }: { children: React.ReactNode }) => {
-  const [chats, setChats] = useState([])
+  const [chats, setChats] = useState<any>([])
   const { user } = useAuth()
 
   const isAdmin = user.$id === process.env.NEXT_PUBLIC_ADMIN_USER_ID
+
+  const databases = new Databases(appwriteClient);
+  useEffect(() => {
+    getMessages()
+  }, [])
+
+  const getMessages = async () => {
+    const response = await databases.listDocuments(
+      config.appwriteDatabaseId,
+      config.appwriteCollectionId,
+    )
+    setChats(response.documents)
+  }
+  console.log(chats.map((object: any) => { return object.senderUsername, object.senderID }).filter((name: any, index: any, array: any) => array.indexOf(name) === index));
 
   return (
     <div className="flex flex-col sm:flex-row items-start gap-5">
@@ -20,13 +38,17 @@ const ChatLayout = ({ children }: { children: React.ReactNode }) => {
               <p className=" px-2 rounded-lg h-fit w-fit text-xl"><RiVerifiedBadgeFill /></p>
             </div>
             <div className="flex flex-col gap-4 py-8 ">
-              {isAdmin && chats.filter((chat: any) => chat.senderID != process.env.NEXT_PUBLIC_ADMIN_USER_ID).map((chat: any, index: any) => (
-                <p key={index} className="bg-slate-200 rounded-lg p-3 w-full text-black">{chat.senderID}</p>
+              {isAdmin && chats.filter((chat: any) => chat.senderID != process.env.NEXT_PUBLIC_ADMIN_USER_ID).map((object: any) => object.senderID).filter((name: any, index: any, array: any) => array.indexOf(name) === index).map((chat: any, index: any) => (
+                <Link href={`/console/chat/${chat}`} key={index} className='flex flex-col bg-slate-400 rounded p-3 text-black '>
+                  <p className='font-bold'>User</p>
+                  <p className=''>{chat}</p>
+                </Link >
               ))}
             </div>
           </div>
         </div>
       }
+
       {children}
     </div>
   )
