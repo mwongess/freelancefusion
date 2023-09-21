@@ -12,7 +12,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
     const isAuth = isLogin || isSignup
     return (
         <div className='flex flex-col  justify-between'>
-            <div className='min-h-screen'>
+            <div className='min-h-[80vh]'>
                 <Header />
                 <div className="outlet">
                     {children}

@@ -12,7 +12,8 @@ type LoginUserAccount = {
     password: string,
 }
 
-const appwriteClient = new Client()
+export const appwriteClient = new Client()
+
 appwriteClient.setEndpoint(config.appwriteUrl).setProject(config.appwriteProjectId);
 
 export const account = new Account(appwriteClient)
@@ -54,7 +55,7 @@ export class AppwriteService {
 
     async getCurrentUser() {
         try {
-            return account.get()
+            return  account.get()
         } catch (error) {
             console.log("getcurrentUser error: " + error)
             

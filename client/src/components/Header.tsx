@@ -4,8 +4,8 @@ import React from 'react'
 const Header = () => {
   return (
     <div className='header '>
-        <Link href="/home" className='font-bold text-2xl'><span className='border-2 p-1 text-[#0B9240]'>FF</span> FreelanceFusion</Link>
-        <div className='flex gap-6'>
+        <Link href="/home" className='font-bold sm:text-2xl'><span className='border-2 p-1 text-[#0B9240]'>FF</span> FreelanceFusion</Link>
+        <div className='hidden sm:flex gap-6'>
             <Link href="">Explore</Link>
             <Link href="">Contact Us</Link>
             <Link href="">Services</Link>

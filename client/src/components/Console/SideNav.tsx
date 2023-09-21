@@ -6,17 +6,24 @@ import { BiTask } from "react-icons/bi";
 import { SiSlack } from "react-icons/si";
 import Link from "next/link"
 import { useRouter } from "next/navigation";
+import appwriteService from "@/appwrite/config";
+import { useAuth } from "@/context/authContext";
 
 const SideNav = () => {
     const router = useRouter()
+    const { user } = useAuth()
+
+    const isAdmin = () => user ?  user.$id === process.env.NEXT_PUBLIC_ADMIN_USER_ID : false
+
     const logout = () => {
+        appwriteService.logout()
         router.push("/login")
     }
 
     return (
         <div className="fixed flex flex-col justify-between gap-[5rem] px-4 py-8 font-bold">
             <div className="flex flex-col gap-8">
-                <Link className="flex items-center gap-4 text-lg" href="/console/chat"><BiSolidMessageRoundedDetail />Message</Link>
+                <Link className="flex items-center gap-4 text-lg" href={isAdmin() ? "/console/chat" : "/console/chat/with-admin"}><BiSolidMessageRoundedDetail />Message</Link>
                 <Link className="flex items-center gap-4 text-lg" href="/console/jobs"><BiTask />Jobs</Link>
                 <Link className="flex items-center gap-4 text-lg" href="https://app.slack.com/client/T05ST3P68MC/C05TNPWRPSL" target="_blank"><SiSlack />Slack</Link>
                 <Link className="flex items-center gap-4 text-lg" href="/console/profile" ><FaUserAlt /> Profile</Link>
