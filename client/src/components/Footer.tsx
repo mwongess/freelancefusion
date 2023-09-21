@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <div className="footer">
             <div className='licensing'>
-                <h1 className='font-bold text-2xl'>FreelanceFusion</h1>
+                <h1 className='font-bold text-xl sm:text-2xl'>FreelanceFusion</h1>
                 <p>FreelanceFusion International Ltd .2023</p>
             </div>
             <div className='socials'>
