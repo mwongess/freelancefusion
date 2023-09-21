@@ -6,10 +6,12 @@ import { BiTask } from "react-icons/bi";
 import { SiSlack } from "react-icons/si";
 import Link from "next/link"
 import { useRouter } from "next/navigation";
+import appwriteService from "@/appwrite/config";
 
 const SideNav = () => {
     const router = useRouter()
     const logout = () => {
+        appwriteService.logout()
         router.push("/login")
     }
 

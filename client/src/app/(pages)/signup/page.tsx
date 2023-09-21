@@ -22,21 +22,27 @@ const Signup = () => {
   const signup = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-        const userData = await appwriteService.createUserAccount(formData);
-        if (userData) {
-            setAuthStatus(true)
-            router.push("/console")
-        }
+      const userData = await appwriteService.createUserAccount(formData);
+      if (userData) {
+        setAuthStatus(true)
+        router.push("/console")
+      }
     } catch (error: any) {
-        setError(error.message)
+      setError(error.message)
     }
-}
+  }
 
   return (
     <div className='flex h-screen'>
       <Notes />
       <div className='flex flex-col justify-between sm:justify-center items-center w-full sm:w-1/2 bg-white pt-10 sm:pt-0'>
         <form onSubmit={signup} className='w-[80%] sm:w-[60%] text-black'>
+          {
+            error &&
+            <div className='border border-red-800 bg-red-100 mb-3 p-4'>
+              <p>{error}</p>
+            </div>
+          }
           <div className='flex flex-col gap-2'>
             <label className='font-bold text-lg' htmlFor="">Name</label>
             <input className='p-2 bg-transparent border-2 border-[#0B9240]' onChange={(e) =>

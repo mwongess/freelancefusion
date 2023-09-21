@@ -8,6 +8,7 @@ import { RiVerifiedBadgeFill } from "react-icons/ri";
 import NoMesages from "../NoMesages";
 import config from "@/config/conf";
 import { useAuth } from "@/context/authContext";
+import { log } from "console";
 
 const Chat = () => {
     const [currentUser, setCurrentUser] = useState("")
@@ -65,7 +66,7 @@ const Chat = () => {
 
         const payload = {
             senderID: user.$id,
-            senderUserName: user.name,
+            senderUsername: user.name,
             receiverID: "",
             message: message
         }
@@ -77,7 +78,7 @@ const Chat = () => {
             payload,
             permissions
         )
-
+        console.log('RESPONSE:', response)
         setMessage('') //Reset message input
 
     }
