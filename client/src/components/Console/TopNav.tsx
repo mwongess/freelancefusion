@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import { FaHamburger } from 'react-icons/fa'
+import MobileNav from './MobileNav'
 
 const TopNav = () => {
     return (
@@ -10,7 +11,7 @@ const TopNav = () => {
                 <Link href="">Feedback</Link>
                 <Link href="">Support</Link>
             </div>
-            <h1 className='sm:hidden flex text-2xl'><FaHamburger/></h1>
+            <MobileNav/>
         </div>
     )
 }

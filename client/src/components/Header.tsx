@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import Harmburger from './Harmburger'
 
 const Header = () => {
   return (
@@ -12,6 +13,7 @@ const Header = () => {
             <Link href="/login">Sign In</Link>
             <Link href="/signup">Register</Link>
         </div>
+        <Harmburger/>
     </div>
   )
 }
