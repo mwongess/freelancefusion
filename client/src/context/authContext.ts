@@ -1,9 +1,11 @@
 import { createContext, useContext } from "react";
 
 export const AuthContext = createContext<{
+    user: any
     authStatus: boolean;
     setAuthStatus: (status: boolean) => void;
 }>({
+    user: null,
     authStatus: false,
     setAuthStatus: () => {},
 });

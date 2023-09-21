@@ -1,95 +1,89 @@
 "use client"
 
-import appwriteService from "@/appwrite/config";
-import { Client, Databases, ID } from "appwrite";
-import { useEffect, useState } from "react";
+import appwriteService, { appwriteClient } from "@/appwrite/config";
+import { Databases, ID, Permission, Query, Role } from "appwrite";
+import { FormEvent, useEffect, useState } from "react";
 import { FaArrowUp } from "react-icons/fa";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import NoMesages from "../NoMesages";
+import config from "@/config/conf";
+import { useAuth } from "@/context/authContext";
 
 const Chat = () => {
     const [currentUser, setCurrentUser] = useState("")
     const [recipientID, setRecipientID] = useState("")
     const [message, setMessage] = useState("")
+    const [messages, setMessages] = useState<any>([])
     const [chats, setChats] = useState<any>([])
 
-    const isAdmin = currentUser === process.env.NEXT_PUBLIC_ADMIN_USER_ID
+    const { user } = useAuth()
 
-    const client = new Client();
-    const databases = new Databases(client);
-    client
-        .setEndpoint('https://cloud.appwrite.io/v1')
-        .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!)
+    // Check if current user is an admin
+    const isAdmin = user.$id === process.env.NEXT_PUBLIC_ADMIN_USER_ID
+
+    const databases = new Databases(appwriteClient);
 
     useEffect(() => {
-        getCurrentUser()
-        fetchChats()
-    }, [message])
+        getMessages();
 
-    async function getCurrentUser() {
-        const id = (await appwriteService.getCurrentUser())?.$id!
-        setCurrentUser(id)
-    }
+        const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteCollectionId}.documents`, (response: any) => {
 
-    const fetchChats = async () => {
-        try {
-            const { documents } = await databases.listDocuments(process.env.NEXT_PUBLIC_DATABASE_ID!, process.env.NEXT_PUBLIC_COLLECTION_ID!);
-            console.log(documents);
-            if (isAdmin) {
-                setChats(documents)
-            } else {
-                const userChats = documents.filter((document) => (document.senderID || document.recieverID) === currentUser)
-                setChats(userChats)
+            if (response.events.includes("databases.*.collections.*.documents.*.create")) {
+                console.log('MESSAGE SENT')
+                setMessages((prevState: any) => [response.payload, ...prevState])
             }
-        } catch (error) {
-            console.error(error)
-        }
+
+            if (response.events.includes("databases.*.collections.*.documents.*.delete")) {
+                console.log('MESSAGE HAS BEEN DELETED!!!')
+                setMessages((prevState: any[]) => prevState.filter(message => message.$id !== response.payload.$id))
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
+    const getMessages = async () => {
+        const response = await databases.listDocuments(
+            config.appwriteDatabaseId,
+            config.appwriteCollectionId,
+            [
+                Query.orderAsc('$createdAt'),
+            ]
+        )
+        console.log(response.documents)
+        setMessages(response.documents)
     }
 
-    async function sendMessageToAdmin(userID: string, message: any) {
-        try {
-            const messageObject = {
-                senderID: userID,
-                recieverID: process.env.NEXT_PUBLIC_ADMIN_USER_ID,
-                message,
-            };
-            const response = await databases.createDocument(process.env.NEXT_PUBLIC_DATABASE_ID!, process.env.NEXT_PUBLIC_COLLECTION_ID!, ID.unique(), messageObject);
-            setMessage("")
-            return response;
-        } catch (error) {
-            console.error(error);
+    const sendMessage = async (e: FormEvent) => {
+        e.preventDefault()
+
+        const permissions = [
+            Permission.write(Role.user(user.$id)),
+        ]
+
+        const payload = {
+            senderID: user.$id,
+            senderUserName: user.name,
+            receiverID: "",
+            message: message
         }
+
+        const response = await databases.createDocument(
+            config.appwriteDatabaseId,
+            config.appwriteCollectionId,
+            ID.unique(),
+            payload,
+            permissions
+        )
+
+        setMessage('') //Reset message input
+
     }
 
-    async function sendMessageToUser(userID: string, message: any) {
-        try {
-            const messageObject = {
-                senderID: process.env.NEXT_PUBLIC_ADMIN_USER_ID,
-                receiverID: userID,
-                message,
-            };
-            const response = await databases.createDocument(process.env.NEXT_PUBLIC_DATABASE_ID!, process.env.NEXT_PUBLIC_COLLECTION_ID!, ID.unique(), messageObject);
-            setMessage("")
-            return response;
-
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    // client.subscribe('documents', response => {
-    //     if (response.events.includes('databases.*.collections.*.documents.*.create')) {
-    //         console.log(response.payload);
-    //     }
-    // });
-
-    const sendMessage = async () => {
-        if (isAdmin) {
-            sendMessageToUser("567890", message)
-        }
-        else {
-            sendMessageToAdmin(message, recipientID);
-        }
+    const deleteMessage = async (id: string) => {
+        await databases.deleteDocument(config.appwriteDatabaseId, config.appwriteCollectionId, id);
     }
 
     return (
@@ -104,7 +98,7 @@ const Chat = () => {
                         <p className=" px-2 rounded-lg h-fit w-fit text-xl"><RiVerifiedBadgeFill /></p>
                     </div>
                     <div className="flex flex-col gap-4 py-8 ">
-                        {isAdmin && chats.filter((chat: any) => chat.senderID != process.env.NEXT_PUBLIC_ADMIN_USER_ID).map((chat: any,index:any) => (
+                        {isAdmin && chats.filter((chat: any) => chat.senderID != process.env.NEXT_PUBLIC_ADMIN_USER_ID).map((chat: any, index: any) => (
                             <p key={index} className="bg-slate-200 rounded-lg p-3 w-full text-black">{chat.senderID}</p>
                         ))}
                     </div>
@@ -115,7 +109,7 @@ const Chat = () => {
                     {
                         !chats[0] && <NoMesages />
                     }
-                    {chats.map((chat: any, index:any) => (
+                    {chats.map((chat: any, index: any) => (
                         <div key={index} className={(chat.senderID === currentUser ? "self-end bg-slate-50 text-black " : "self-start border border-slate-50") + " border p-3 w-fit rounded-lg mb-[0.5rem]"}>
                             <p>{chat.message}</p>
                         </div>
