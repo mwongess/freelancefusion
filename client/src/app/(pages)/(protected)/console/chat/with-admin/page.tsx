@@ -21,12 +21,12 @@ const ChatWithAdmin = () => {
     const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteCollectionId}.documents`, (response: any) => {
 
       if (response.events.includes("databases.*.collections.*.documents.*.create")) {
-        console.log('MESSAGE SENT')
-        setChats((prevState: any) => [...prevState, response.payload])
+        if (response.payload.receiverID == user.$id || response.payload.senderID === user.$id) {
+          setChats((prevState: any) => [...prevState, response.payload])
+        }
       }
 
       if (response.events.includes("databases.*.collections.*.documents.*.delete")) {
-        console.log('MESSAGE HAS BEEN DELETED!!!')
         setChats((prevState: any[]) => prevState.filter(message => message.$id !== response.payload.$id))
       }
     });
@@ -41,7 +41,7 @@ const ChatWithAdmin = () => {
       config.appwriteDatabaseId,
       config.appwriteCollectionId,
     )
-    const myChats = response.documents.filter((chat) => { return (chat.receiverID == user.$id )||( chat.senderID === user.$id) })
+    const myChats = response.documents.filter((chat) => { return (chat.receiverID == user.$id) || (chat.senderID === user.$id) })
     setChats(myChats)
   }
   const sendMessage = async (e: FormEvent) => {

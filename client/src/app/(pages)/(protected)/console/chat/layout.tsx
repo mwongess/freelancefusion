@@ -26,7 +26,6 @@ const ChatLayout = ({ children }: { children: React.ReactNode }) => {
     )
     setChats(response.documents)
   }
-  console.log(chats.map((object: any) => { return object.senderUsername, object.senderID }).filter((name: any, index: any, array: any) => array.indexOf(name) === index));
 
   return (
     <div className="flex flex-col sm:flex-row items-start gap-5">

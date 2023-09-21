@@ -23,12 +23,12 @@ const Chat = () => {
     const unsubscribe = appwriteClient.subscribe(`databases.${config.appwriteDatabaseId}.collections.${config.appwriteCollectionId}.documents`, (response: any) => {
 
       if (response.events.includes("databases.*.collections.*.documents.*.create")) {
-        console.log('MESSAGE SENT')
-        setChats((prevState: any) => [...prevState, response.payload])
+        if ((response.payload.receiverID == process.env.NEXT_PUBLIC_ADMIN_USER_ID && response.payload.senderID == receiverID) || (response.payload.senderID == process.env.NEXT_PUBLIC_ADMIN_USER_ID && response.payload.receiverID == receiverID)) {
+          setChats((prevState: any) => [...prevState, response.payload])
+        }
       }
 
       if (response.events.includes("databases.*.collections.*.documents.*.delete")) {
-        console.log('MESSAGE HAS BEEN DELETED!!!')
         setChats((prevState: any[]) => prevState.filter(message => message.$id !== response.payload.$id))
       }
     });
@@ -43,9 +43,9 @@ const Chat = () => {
       config.appwriteDatabaseId,
       config.appwriteCollectionId,
     )
-    const thisUserChats = response.documents.filter((chat) => { return (chat.receiverID == process.env.NEXT_PUBLIC_ADMIN_USER_ID  &&  chat.senderID ==  receiverID ) || (chat.senderID == process.env.NEXT_PUBLIC_ADMIN_USER_ID && chat.receiverID == receiverID ) })
+    const thisUserChats = response.documents.filter((chat) => { return (chat.receiverID == process.env.NEXT_PUBLIC_ADMIN_USER_ID && chat.senderID == receiverID) || (chat.senderID == process.env.NEXT_PUBLIC_ADMIN_USER_ID && chat.receiverID == receiverID) })
     console.log(thisUserChats);
-    
+
     setChats(thisUserChats)
   }
   const sendMessage = async (e: FormEvent) => {
