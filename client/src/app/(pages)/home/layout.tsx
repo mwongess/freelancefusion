@@ -19,7 +19,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
                 </div>
             </div>
             <div>
-                <Cta />
+                {/* <Cta /> */}
                 <Footer />
             </div>
 
