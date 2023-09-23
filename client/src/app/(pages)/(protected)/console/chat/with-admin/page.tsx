@@ -70,7 +70,7 @@ const ChatWithAdmin = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-screen sm:w-full p-4 h-[90vh]">
-      <div className="flex flex-col gap-4 overflow-y-scroll  w-full h-[80vh] px-3">
+      <div className="flex flex-col gap-4 overflow-y-scroll  w-full h-[80vh] pr-3">
         {
           !chats[0] && <NoMesages />
         }

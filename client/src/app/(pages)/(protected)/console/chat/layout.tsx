@@ -30,7 +30,7 @@ const ChatLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex flex-col sm:flex-row items-start gap-5">
       {
-        isAdmin && <div className="hidden sm:flex flex-col items-center w-full sm:w-[30%] border-r border-slate-600 p-4 sm:min-h-[90vh]">
+        isAdmin && <div className="flex flex-col items-center w-full sm:w-[30%] border-r border-slate-600 p-4 sm:min-h-[90vh]">
           <div className="w-full">
             <div className="flex items-center justify-between w-full">
               <h1 className="font-bold">{isAdmin ? 'All Chats' : 'Chat with Admin'}</h1>
