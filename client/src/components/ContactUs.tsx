@@ -7,7 +7,7 @@ const ContactUs = () => {
         <div id='contact' className='p-8'>
             <h1 className='font-bold text-3xl text-center pt-20 mb-8 sm:mb-12'>Contact Us</h1>
             <div className='flex flex-col sm:flex-row justify-between gap-8'>
-                <div className='w-1/2'>
+                <div className='w-full sm:w-1/2'>
                     <h1 className='font-bold text-2xl'>Get in Touch Today!</h1>
                     <p className='my-4'>We value your feedback and look forward to connecting with you. Whether you're inquiring about our services, requesting a quote, or simply want to say hello, we're here to assist you promptly. Your satisfaction is our priority</p>
                     <div className='socials flex flex-col gap-2'>

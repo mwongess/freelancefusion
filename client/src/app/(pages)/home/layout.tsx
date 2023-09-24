@@ -4,6 +4,7 @@ import ContactUs from '@/components/ContactUs'
 import Cta from '@/components/Cta'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
+import Services from '@/components/Services'
 import { usePathname } from 'next/navigation'
 
 const HomeLayout = ({ children }: { children: React.ReactNode }) => {
@@ -19,7 +20,8 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
                     {children}
                 </div>
             </div>
-            <ContactUs/>
+            <Services />
+            <ContactUs />
             <div>
                 {/* <Cta /> */}
                 <Footer />
