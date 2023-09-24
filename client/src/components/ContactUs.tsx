@@ -9,7 +9,7 @@ const ContactUs = () => {
             <div className='flex flex-col sm:flex-row justify-between gap-8'>
                 <div className='w-full sm:w-1/2'>
                     <h1 className='font-bold text-2xl'>Get in Touch Today!</h1>
-                    <p className='my-4'>We value your feedback and look forward to connecting with you. Whether you're inquiring about our services, requesting a quote, or simply want to say hello, we're here to assist you promptly. Your satisfaction is our priority</p>
+                    <p className='my-4'>We value your feedback and look forward to connecting with you. Whether you&apos;re inquiring about our services, requesting a quote, or simply want to say hello, we're here to assist you promptly. Your satisfaction is our priority</p>
                     <div className='socials flex flex-col gap-2'>
                         <Link className='flex gap-3 items-center text-lg' href={`https://www.github.com/`} target='_blank'><span><FaGithub /></span> Github</Link>
                         <Link className='flex gap-3 items-center text-lg' href={`https://www.linkedin.com/in/`} target='_blank'><span><FaLinkedinIn /> </span>LinkedIn</Link>
