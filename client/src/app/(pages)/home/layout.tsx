@@ -1,5 +1,6 @@
 "use client"
 
+import ContactUs from '@/components/ContactUs'
 import Cta from '@/components/Cta'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
@@ -18,6 +19,7 @@ const HomeLayout = ({ children }: { children: React.ReactNode }) => {
                     {children}
                 </div>
             </div>
+            <ContactUs/>
             <div>
                 {/* <Cta /> */}
                 <Footer />
